@@ -19,6 +19,7 @@ namespace Algorithm_Visualizer
         static StartTile start = null;
         static GoalTile goal = null;
         static bool xDown = false;
+        public static bool algoOver = false;
 
         public AlgoVis()
         {
@@ -28,8 +29,8 @@ namespace Algorithm_Visualizer
 
         private void AlgoVis_Load(object sender, EventArgs e)
         {
-            
 
+            cbAlgo.SelectedIndex = 0;
             var mainWidth = 1400;
             var mainHeight = 900;
             
@@ -107,15 +108,31 @@ namespace Algorithm_Visualizer
             }
         }
 
+        public void tilePartialReset()
+        {
+            foreach(Tile t in tiles)
+            {
+                if (!t.Equals(start) && !t.Equals(goal) && !t.wall && t.active) t.Activate();
+                if (t.Equals(goal) && goal.active) goal.Activate();
+            }
+        }
+
         public void onClick(object sender, EventArgs e)
         {
 
             Tile t = sender as Tile;
+
             if (!chStart.Checked && !chGoal.Checked)
             {
                 if (t.Equals(start) || t.Equals(goal))
                 {
-                    if(t.Equals(start)) start = null;
+                    if (algoOver)
+                    {
+                        algoOver = false;
+                        tilePartialReset();
+                    }
+
+                    if (t.Equals(start)) start = null;
                     if (t.Equals(goal)) goal = null;
 
                     Tile fill = new Tile(t.x, t.y, tileSize);
@@ -128,6 +145,11 @@ namespace Algorithm_Visualizer
             }
             else
             {
+                if (algoOver)
+                {
+                    algoOver = false;
+                    tilePartialReset();
+                }
                 if (chStart.Checked)
                 {
                     chStart.Checked = false;
@@ -215,6 +237,12 @@ namespace Algorithm_Visualizer
         {
             chGoal.Checked = false;
             chStart.Checked = false;
+            if (algoOver)
+            {
+                algoOver = false;
+                tilePartialReset();
+                Thread.Sleep(100);
+            }
             if (start!=null && goal != null)
             {
                 Thread calcThread = null;

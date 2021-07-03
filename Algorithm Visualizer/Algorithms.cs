@@ -126,6 +126,7 @@ namespace Algorithm_Visualizer
 
             if (goal.active)
             {
+                goal.path();
                 chosen = goal;
                 while (!chosen.Equals(start))
                 {
@@ -137,7 +138,7 @@ namespace Algorithm_Visualizer
                         System.Threading.Thread.Sleep(sleeptime);
                     }
 
-                    if (chosen.y < tiles.GetLength(1) - 1 && tiles[chosen.x, chosen.y + 1].active && dist[tList.IndexOf(tiles[chosen.x, chosen.y + 1])] < step && !tiles[chosen.x, chosen.y + 1].wall)
+                    else if (chosen.y < tiles.GetLength(1) - 1 && tiles[chosen.x, chosen.y + 1].active && dist[tList.IndexOf(tiles[chosen.x, chosen.y + 1])] < step && !tiles[chosen.x, chosen.y + 1].wall)
                     {
                         step = dist[tList.IndexOf(tiles[chosen.x, chosen.y + 1])];
                         chosen = tiles[chosen.x, chosen.y + 1];
@@ -145,7 +146,7 @@ namespace Algorithm_Visualizer
                         System.Threading.Thread.Sleep(sleeptime);
                     }
 
-                    if (chosen.x < tiles.GetLength(0) - 1 && tiles[chosen.x + 1, chosen.y].active && dist[tList.IndexOf(tiles[chosen.x + 1, chosen.y])] < step && !tiles[chosen.x + 1, chosen.y].wall)
+                    else if (chosen.x < tiles.GetLength(0) - 1 && tiles[chosen.x + 1, chosen.y].active && dist[tList.IndexOf(tiles[chosen.x + 1, chosen.y])] < step && !tiles[chosen.x + 1, chosen.y].wall)
                     {
                         step = dist[tList.IndexOf(tiles[chosen.x + 1, chosen.y])];
                         chosen = tiles[chosen.x + 1, chosen.y];
@@ -153,7 +154,7 @@ namespace Algorithm_Visualizer
                         System.Threading.Thread.Sleep(sleeptime);
                     }
 
-                    if (chosen.y > 1 && tiles[chosen.x, chosen.y - 1].active && dist[tList.IndexOf(tiles[chosen.x, chosen.y-1])]<step && !tiles[chosen.x, chosen.y - 1].wall)
+                    else if (chosen.y > 1 && tiles[chosen.x, chosen.y - 1].active && dist[tList.IndexOf(tiles[chosen.x, chosen.y-1])]<step && !tiles[chosen.x, chosen.y - 1].wall)
                     {
                         step = dist[tList.IndexOf(tiles[chosen.x, chosen.y - 1])];
                         chosen = tiles[chosen.x, chosen.y - 1];
@@ -164,8 +165,9 @@ namespace Algorithm_Visualizer
                 }
 
             }
-
-
+            AlgoVis.algoOver = true;
+            
+                       
         }
 
         ////////////////////
@@ -212,16 +214,17 @@ namespace Algorithm_Visualizer
             }
 
             if (goal.active)
-            {
+            {               
                 while (!current.t.Equals(start))
                 {
                     current.t.path();
                     current = current.Parent;
                     System.Threading.Thread.Sleep(sleeptime);
                 }
+                current.t.path();
             }
-            
 
+            AlgoVis.algoOver = true;
         }
         
         public class A_StarData

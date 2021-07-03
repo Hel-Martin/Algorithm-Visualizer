@@ -86,6 +86,7 @@
             // 
             // cbAlgo
             // 
+            this.cbAlgo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbAlgo.FormattingEnabled = true;
             this.cbAlgo.Items.AddRange(new object[] {
             "Dijkstra",
@@ -94,7 +95,6 @@
             this.cbAlgo.Name = "cbAlgo";
             this.cbAlgo.Size = new System.Drawing.Size(121, 29);
             this.cbAlgo.TabIndex = 4;
-            this.cbAlgo.Text = "Dijkstra";
             // 
             // bReset
             // 
